@@ -5,25 +5,21 @@ using System.Text;
 using Dalamud.Game.Text.SeStringHandling.Payloads;
 using Dalamud.Plugin.Services;
 using FFXIVWeather.Lumina;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace Tourist {
     public static class Util {
         private static Dictionary<uint, (DateTimeOffset start, DateTimeOffset end)> Availability { get; } = new();
 
         public static void OpenMapLocation(this IGameGui gameGui, Adventure adventure) {
-            var loc = adventure.Level?.Value;
-            var map = loc?.Map?.Value;
-            var terr = map?.TerritoryType?.Value;
-
-            if (terr == null) {
-                return;
-            }
+            var loc = adventure.Level.Value;
+            var map = loc.Map.Value;
+            var terr = map.TerritoryType.Value;
 
             var mapLink = new MapLinkPayload(
                 terr.RowId,
-                map!.RowId,
-                (int) (loc!.X * 1_000f),
+                map.RowId,
+                (int) (loc.X * 1_000f),
                 (int) (loc.Z * 1_000f)
             );
 
@@ -49,7 +45,7 @@ namespace Tourist {
             var contains = Availability.TryGetValue(adventure.RowId, out var cached);
 
             switch (contains) {
-                // if the cache doesn't have this vista but it's currently available
+                // if the cache doesn't have this vista, but it's currently available
                 case false when adventure.Available(service): {
                     // determine the end availability and store that
                     var ends = adventure.AvailabilityEnds(service, DateTimeOffset.Now) ?? default;
@@ -170,7 +166,7 @@ namespace Tourist {
                 return true;
             }
 
-            var (weather, _) = service.GetCurrentWeather(adventure.Level.Value!.Territory.Value, offset);
+            var (weather, _) = service.GetCurrentWeather(adventure.Level.Value.Territory.Value, offset);
 
             return weathers.Contains(weather.RowId);
         }

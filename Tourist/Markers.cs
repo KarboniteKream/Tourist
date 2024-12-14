@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using Dalamud.Plugin.Services;
-using Lumina.Excel.GeneratedSheets;
+using Lumina.Excel.Sheets;
 
 namespace Tourist {
     public class Markers : IDisposable {
@@ -31,7 +31,7 @@ namespace Tourist {
         }
 
         internal void RemoveVfx(ushort index) {
-            var adventure = this.Plugin.DataManager.GetExcelSheet<Adventure>()!
+            var adventure = this.Plugin.DataManager.GetExcelSheet<Adventure>()
                 .Skip(index)
                 .First();
 
@@ -53,14 +53,14 @@ namespace Tourist {
 
         internal void SpawnVfxForCurrentZone(ushort territory) {
             var row = 0;
-            foreach (var adventure in this.Plugin.DataManager.GetExcelSheet<Adventure>()!) {
+            foreach (var adventure in this.Plugin.DataManager.GetExcelSheet<Adventure>()) {
                 if (row >= 80) {
                     break;
                 }
 
                 row += 1;
 
-                if (adventure.Level.Value!.Territory.Row != territory) {
+                if (adventure.Level.Value.Territory.RowId != territory) {
                     continue;
                 }
 
