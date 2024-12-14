@@ -20,15 +20,15 @@ namespace Tourist {
             this.Plugin = plugin;
 
             this.Plugin.Interface.UiBuilder.Draw += this.Draw;
-            this.Plugin.Interface.UiBuilder.OpenConfigUi += this.OpenConfig;
+            this.Plugin.Interface.UiBuilder.OpenMainUi += this.OpenMain;
         }
 
         public void Dispose() {
-            this.Plugin.Interface.UiBuilder.OpenConfigUi -= this.OpenConfig;
+            this.Plugin.Interface.UiBuilder.OpenMainUi -= this.OpenMain;
             this.Plugin.Interface.UiBuilder.Draw -= this.Draw;
         }
 
-        private void OpenConfig() {
+        private void OpenMain() {
             this.Show = true;
         }
 
