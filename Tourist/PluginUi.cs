@@ -160,13 +160,13 @@ namespace Tourist {
                     }
 
                     if (this.Plugin.Config.SortMode == SortMode.Zone) {
-                        var map = adventure.Level.Value!.Map.ValueNullable;
-                        if (lastMap.GetValueOrDefault().Id != map.GetValueOrDefault().Id) {
+                        var map = adventure.Level.Value.Map.Value;
+                        if (!Equals(lastMap, map)) {
                             if (lastMap != null) {
                                 ImGui.TreePop();
                             }
 
-                            lastTree = ImGui.CollapsingHeader($"{map!.Value.PlaceName.Value!.Name.ExtractText()}");
+                            lastTree = ImGui.CollapsingHeader($"{map.PlaceName.Value.Name.ExtractText()}");
                             ImGui.TreePush();
                         }
 
